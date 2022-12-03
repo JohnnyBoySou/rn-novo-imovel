@@ -1,0 +1,239 @@
+ <Carousel 
+          layout="default"
+          ref={isCarousel}
+          data={data}
+          sliderWidth={width}
+          itemWidth={largura}
+          renderItem={RenderItem}
+          onSnapToItem={(index) => setActiveIndex(index)}
+          activeAnimationType="timing"
+        />
+         <Pagination
+        dotsLength={ofertas}
+        activeDotIndex={activeIndex}
+        carouselRef={isCarousel}
+        dotStyle={{
+          width: 12,
+          height: 12,
+          borderRadius: 100,
+          backgroundColor: color.primary,
+        
+        }}
+        inactiveDotStyle={{
+          width: 10,
+          height: 10,
+          borderRadius: 100,
+          marginHorizontal: 0,
+          backgroundColor: "#333",
+
+        }}
+        inactiveDotOpacity={0.4}
+        inactiveDotScale={0.6}
+        tappableDots={true}
+      />
+
+
+
+///MAPAAAA
+      
+      { loading == false &&
+    <MapView
+        style={{width: width, height: alturaMapa, borderRadius: 24,}}
+        showsPointsOfInterest={false}
+        ref={mapview}
+        customMapStyle={{overflow: 'hidden', borderRadius: 12,}}
+        initialRegion={{
+          latitude: -26.4863307,
+          longitude: -49.083026,
+          latitudeDelta: 0.09,
+          longitudeDelta: 0.09,
+        }} provider="google"
+        
+        onMapReady={() => {}}
+        >
+        <Points data={data} />
+      </MapView>}
+
+
+//// RENDERIZAR MAPA -
+
+
+function Renderizar(props){
+    const dados = props.data;
+
+    return(
+
+      <View>
+        {dados.map((item, index) => (
+          
+          
+          <View key={index}>
+            <Marker onPress={() => anim(item)} coordinate={{latitude: parseFloat(item.latitude), longitude: parseFloat(item.longitude)}} pinColor={color.primary}>
+            <Callout tooltip={true} onPress={() => pegarPost(item)}>
+            
+            <View style={{borderRadius: 8, backgroundColor: "#fff", width: 250, marginBottom: 5,}}>
+              <View style={{borderRadius: 12,}}>
+                <Svg width={250} height={160} >
+                  <ImageSvg
+                      style={{borderTopRightRadius: 12,}}
+                      width={'100%'} 
+                      height={'100%'}
+                      preserveAspectRatio="xMidYMid slice"
+                      href={{ uri: item.imagem1}}
+                  />
+                </Svg>
+              </View>
+            
+            <TouchableRipple style={{borderTopLeftRadius: 8, borderTopRightRadius: 8, position: 'absolute', top: 5, right: 5,}} rippleColor="#303030" borderless={true}>
+              <>
+              <Chip>      
+                <>
+                {item.tipo == "Ambos" && 
+                <Valor style={{fontSize: 18,}}>R$ {item.valor_mensal} / R$ {item.valor_unico}</Valor> }
+                {item.tipo != "Ambos" && 
+                <Valor style={{fontSize: 18,}}>R$ {item.valor_mensal}{item.valor_unico}</Valor> }
+                </>
+              </Chip>
+              </>
+            </TouchableRipple>
+     
+          <Description>
+            <Title>{item.nome}</Title>
+            <Address>{item.rua}, {item.numero} - {item.bairro}</Address>
+          </Description> 
+        </View>
+            <View style={{alignSelf: 'center', marginTop: -10, marginBottom: 10,}}>
+              <Svg width={44} height={20}>
+                <ImageSvg style={{borderTopRightRadius: 12,}} width={'100%'} height={'100%'} preserveAspectRatio="xMidYMid slice" href={require('../../assets/indicator.png')}/>
+              </Svg>
+            </View>
+        
+            </Callout>
+            </Marker>
+            <Circle center={{latitude: parseFloat(item.latitude), longitude: parseFloat(item.longitude)}} radius={25} fillColor="#5B72F220" strokeColor={color.primary} strokeWidth={5}/>
+          </View>
+        ))}
+
+        </View>
+    )}
+
+////mapapaa
+
+
+
+
+
+
+
+    { loading == false &&
+    
+    <MapView
+        style={{width: width, height: alturaMapa, borderRadius: 24,}}
+        showsPointsOfInterest={false}
+        ref={mapview}
+        customMapStyle={{overflow: 'hidden', borderRadius: 12,}}
+        initialRegion={{
+          latitude: -26.4863307,
+          longitude: -49.083026,
+          latitudeDelta: 0.09,
+          longitudeDelta: 0.09,
+        }} provider="google"
+        
+        onMapReady={() => setLoading(false)}
+        >
+        <Points data={data} />
+      </MapView>}
+
+
+
+
+  <Carousel 
+          layout="default"
+          ref={isCarousel}
+          data={data}
+          sliderWidth={width}
+          itemWidth={largura}
+          renderItem={RenderItem}
+          onSnapToItem={(index) => setActiveIndex(index)}
+          activeAnimationType="timing"
+        />
+         <Pagination
+        dotsLength={ofertas}
+        activeDotIndex={activeIndex}
+        carouselRef={isCarousel}
+        dotStyle={{
+          width: 12,
+          height: 12,
+          borderRadius: 100,
+          backgroundColor: color.primary,
+        
+        }}
+        inactiveDotStyle={{
+          width: 10,
+          height: 10,
+          borderRadius: 100,
+          marginHorizontal: 0,
+          backgroundColor: "#333",
+
+        }}
+        inactiveDotOpacity={0.4}
+        inactiveDotScale={0.6}
+        tappableDots={true}
+      />
+
+
+
+//
+
+
+
+          <Text>
+            <Feather style={{alignSelf: 'center'}} name="alert-circle" size={28} color={color.label} />
+            <Ionicons name="heart-outline" size={28} style={{paddingRight: 5, textAlign: 'center'}} color={color.label}/>  
+          </Text>
+         <Tips>Clique sobre o botão de  para salvar um imóvel </Tips>
+
+
+
+
+<ScrollView style={{paddingVertical: 0, paddingHorizontal: 24, flex: 1, }}>
+
+
+    <MotiView delay={300} from={{ translateY: 20, opacity: 0 }} animate={{ translateY: 0, opacity: 1, }} transition={{type: 'timing'}}>
+
+        <View style={{backgroundColor: color.off, width: 120, height: 120, borderRadius: 100, 
+        alignSelf: 'center', justifyContent: 'center', marginBottom: 10,}}>
+        <Text>
+          <AntDesign name="hearto" size={52} color={color.primary} style={{textAlign: 'center'}} /></Text>
+        </View>
+
+        <Title>Seus Imóveis Salvos</Title>
+        {!loading && <MotiView delay={200} from={{ translateY: 20, opacity: 0 }} animate={{ translateY: 0, opacity: 1, }} transition={{type: 'timing'}}><Label>Encontramos {datale} imóveis</Label></MotiView>}
+
+        <View style={{marginTop: 0,}}>
+
+      {loading && <View style={{marginTop: 20,}}><RowLargeLoading style={{marginTop: 20,}}/></View>}
+
+       {!loading &&  
+       <MotiView delay={300} from={{ translateY: 20, opacity: 0 }} animate={{ translateY: 0, opacity: 1, }} transition={{type: 'timing'}}>
+      <SafeAreaView>
+      <FlatList
+            showsHorizontalScrollIndicator={false}
+            horizontal={false}
+            data={data}
+            ListHeaderComponent={() => <View style={{width: 20, height: 20,}}/>}
+            ListFooterComponent={() => <View style={{width: 20, height: 0,}}/>}
+            renderItem={renderItem}
+            keyExtractor={item => item.id}
+          />
+
+
+    </SafeAreaView> </MotiView>}
+        
+         </View>
+
+          <Spacing/>
+        </MotiView>
+      </ScrollView>
+
+
